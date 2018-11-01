@@ -27,13 +27,14 @@ TEST(TStack, check_IsEmpty_with_not_empty_stack)
 TEST(TStack, check_IsFull_with_full_stack)
 {
 	TStack<int> st(5);
-	for(int i=0;i<5;i++)
-		st.Put(i);
+	while(!st.IsFull())
+		st.Put(1);
 	EXPECT_TRUE(st.IsFull());
 }
 TEST(TStack, check_IsFull_with_not_full_stack)
 {
 	TStack<int> st(5);
+	st.Put(1);
 	EXPECT_FALSE(st.IsFull());
 }
 TEST(TStack, throws_when_Pop_stack_IsEmty)
@@ -44,7 +45,13 @@ TEST(TStack, throws_when_Pop_stack_IsEmty)
 TEST(TStack, throws_when_Push_stack_IsFull)
 {
 	TStack<int> st(5);
-	for (int i = 0; i<5; i++)
-		st.Put(i);
+	while (!st.IsFull())
+		st.Put(1);
 	ASSERT_ANY_THROW(st.Put(1));
+}
+TEST(TStack, can_get_top_element_from_stack)
+{
+	TStack<int> st(5);
+		st.Put(1);
+		EXPECT_EQ(1, st.Get());
 }

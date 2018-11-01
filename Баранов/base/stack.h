@@ -24,10 +24,10 @@ public:
   }
   void Put(const T &elem)
   {
-	  if (top < size)
-		  pMem[top++] = elem;
+	  if (!IsFull())
+		  pMem[++top] = elem;
 	  else
-		  throw size;
+		  throw ("ERROR");
   }
   T Get()
   {
@@ -43,22 +43,18 @@ public:
   }
   bool IsEmpty()
   {
-	  for (int i = 0; i < size; i++)
-	  {
-		  if (pMem[i] != 0)
-			  return false;
-	  }
-	  return true;
+	 
+	  if (top == -1)
+		  return true;
+	  else
+		  return false;
   }
   bool IsFull()
   {
-	  for (int i = 0; i < size; i++)
-	  {
-		  if (pMem[i] == 0)
-			  return false;
-	  }
-	  return true;
+	  if (top == (size-1))
+		  return true;
+	  else
+		  return false;
   }
 };
-
 #endif

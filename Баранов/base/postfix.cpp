@@ -3,6 +3,7 @@
 
 string TPostfix::ToPostfix()
 {
+	char *tmp;
 	TStack<char> operations(infix.size());
 	TStack<char> symbols(infix.size());
 	TStack<char> operations1(infix.size());
@@ -27,14 +28,32 @@ string TPostfix::ToPostfix()
 		else
 			symbols.Put(infix[i]);
 	}
-	while (!symbols.IsEmpty())
-		postfix += symbols1.Get();
-	while (!operations.IsEmpty())
-		postfix += operations1.Get();
-	while (!symbols.IsEmpty())
-		postfix += symbols.Get();
-	while (!operations.IsEmpty())
-		postfix += operations.Get();
+	tmp = new char[infix.size()];
+	for (int i = 0; i < infix.size(); i++)
+	{
+		if (!symbols.IsEmpty())
+		{
+			while (!symbols.IsEmpty())
+				tmp [i]= char(symbols1.Get());
+		}
+		if (!operations.IsEmpty())
+		{
+			while (!operations.IsEmpty())
+				tmp [i]= char(operations1.Get());
+		}
+		if (!symbols.IsEmpty())
+		{
+			while (!symbols.IsEmpty())
+				tmp [i]= char(symbols.Get());
+		}
+		if (!operations.IsEmpty())
+		{
+			while (!operations.IsEmpty())
+				tmp [i]= char(operations.Get());
+		}
+	}
+	string res(tmp);
+	postfix = res;
 }
 int TPostfix::Priority(char sym)
 {
