@@ -40,7 +40,7 @@ TEST(TStack, check_IsFull_with_not_full_stack)
 TEST(TStack, throws_when_Pop_stack_IsEmty)
 {
 	TStack<int> st(5);
-	ASSERT_ANY_THROW(st.Get());
+	ASSERT_ANY_THROW(st.Pop());
 }
 TEST(TStack, throws_when_Push_stack_IsFull)
 {

@@ -29,6 +29,13 @@ public:
 	  else
 		  throw ("ERROR");
   }
+  void Pop()
+  {
+	  if (top < 0)
+		  throw top;
+	  else
+		  pMem[--top];
+  }
   T Get()
   {
 	  if (top < 0)
@@ -37,7 +44,6 @@ public:
 	  {
 		  T elem;
 		  elem = pMem[top];
-		  pMem[--top];
 		  return elem;
 	  }
   }

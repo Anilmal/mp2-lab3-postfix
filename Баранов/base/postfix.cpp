@@ -1,59 +1,46 @@
 ﻿#include "postfix.h"
 #include "stack.h"
 
-string TPostfix::ToPostfix()
+void TPostfix::ToPostfix()
 {
-	char *tmp;
-	TStack<char> operations(infix.size());
-	TStack<char> symbols(infix.size());
-	TStack<char> operations1(infix.size());
-	TStack<char> symbols1(infix.size());
-	for (int i = 0; i < infix.size(); i++)
+	TStack<char> operations(infix.length());
+	postfix = "";
+	for (int i = 0; i < infix.length(); i++)
 	{
-		if (!isalpha(infix[i]))
-			operations.Put(infix[i]);
-		if (infix[i] == '(')
+		if (isalpha(infix[i]))//abc
+		{
+			postfix += infix[i];
+		}
+		/*if (infix[i] == '(')
 		{
 			i++;
-			while (infix[i] != ')')
-			{
-				if (!isalpha(infix[i]))
-					operations1.Put(infix[i]);
-				else
-					symbols1.Put(infix[i]);
-				i++;
-			}
-		}
+				while (infix[i] != ')')
+				{
 
+				}
+		}*/
+		else if (operations.IsEmpty())
+			operations.Put(infix[i]);//+
+		else if (Priority(infix[i]) <= Priority(operations.Get()))
+		{
+			postfix += operations.Get();//ab+
+			operations.Pop();
+			operations.Put(infix[i]);//-
+		}
 		else
-			symbols.Put(infix[i]);
+			operations.Put(infix[i]);//+*
 	}
-	tmp = new char[infix.size()];
-	for (int i = 0; i < infix.size(); i++)
+	while (!operations.IsEmpty())
 	{
-		if (!symbols.IsEmpty())
-		{
-			while (!symbols.IsEmpty())
-				tmp [i]= char(symbols1.Get());
-		}
-		if (!operations.IsEmpty())
-		{
-			while (!operations.IsEmpty())
-				tmp [i]= char(operations1.Get());
-		}
-		if (!symbols.IsEmpty())
-		{
-			while (!symbols.IsEmpty())
-				tmp [i]= char(symbols.Get());
-		}
-		if (!operations.IsEmpty())
-		{
-			while (!operations.IsEmpty())
-				tmp [i]= char(operations.Get());
-		}
+		postfix += operations.Get();//abc*+
+		operations.Pop();
 	}
-	string res(tmp);
-	postfix = res;
+}
+bool TPostfix::OperationIs(char inf_elem)
+{
+	if (inf_elem == '+' || inf_elem == '-' || inf_elem== '*' || inf_elem == '/')
+		return true;
+	return false;
 }
 int TPostfix::Priority(char sym)
 {
