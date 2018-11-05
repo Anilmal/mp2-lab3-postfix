@@ -76,18 +76,20 @@ int TPostfix::Priority(char sym)
 	if (sym == '+' || sym == '-')
 		return 1;
 }
-double TPostfix::Calculate(double *arguments)// 2 2 
+double TPostfix::Calculate(int count,double *arguments)// пользователь передает колличесво аргументов их значения
 {
+	if (count != count_of_args)
+		throw"ERROR";
+	TStack<double> res(postfix.size());
 	double tmp1;
 	double tmp2;
 	int j = 0;
-	TStack<double> res(count_of_args);
-	while (j != count_of_args)
+	while (j != count)
 	{
 		res.Put(arguments[j]);
 		j++;
 	}
-	for (int i = 0; i < postfix.size(); i++)//ab+
+	for (int i = 0; i < postfix.size(); i++)
 	{
 			//if (isalpha(postfix[i]))//a b
 			//{
