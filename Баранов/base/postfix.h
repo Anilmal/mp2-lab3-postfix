@@ -13,6 +13,7 @@ class TPostfix
   string postfix;
   bool OperationIs(char inf_elem);
   int Priority(char sym);
+  int count_of_args;
 public:
   TPostfix()
   {
@@ -25,7 +26,7 @@ public:
   string GetInfix() { return infix; }
   string GetPostfix() { return postfix; }
   void ToPostfix();
-  double Calculate(double *values);
+  double Calculate(double *arguments);
 };
 
 #endif

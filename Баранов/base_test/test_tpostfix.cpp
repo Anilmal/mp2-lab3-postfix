@@ -30,7 +30,14 @@ TEST(TPostfix, can_get_postfix_with_parentheses)
 {
 	TPostfix p("a+(b-c)");
 	p.ToPostfix();
-	EXPECT_EQ("bc-a+", p.GetPostfix());
+	EXPECT_EQ("abc-+", p.GetPostfix());
 }
 
+TEST(TPostfix, can_calculate_postfix)
+{
+	TPostfix p("a+b");
+	p.ToPostfix();
+	double tmp[2] = { 2,2 };
+	EXPECT_EQ(4, p.Calculate(tmp));
+}
 
