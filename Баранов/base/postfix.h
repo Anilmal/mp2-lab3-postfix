@@ -20,10 +20,10 @@ public:
    infix = "a + b";
    count_of_args = 2;
   }
-  TPostfix(string _infix)
+  TPostfix(string _infix,int count)
   {
 	  infix = _infix;
-	  count_of_args = 0;
+	  count_of_args = count;
   }
   string GetInfix() { return infix; }
   string GetPostfix() { return postfix; }

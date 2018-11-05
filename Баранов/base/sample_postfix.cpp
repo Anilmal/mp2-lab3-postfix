@@ -7,19 +7,18 @@ using namespace std;
 int main()
 {
   string expression;
-  TPostfix postfix;
   double res;
-  int count=0;
+  int count;
   setlocale(LC_ALL, "Russian");
+  cout << "Ведите колличество аргументов ";
+  cin >> count;
+  cout << endl;
   cout << "Введите формулу арифметического выражения: ";
   cin >> expression;
-  cout << expression << endl;
+  TPostfix postfix(expression,count);
   cout << "Арифметическое выражение: " << postfix.GetInfix() << endl;
   postfix.ToPostfix();
   cout << "Постфиксная форма: " << postfix.GetPostfix() << endl;
-  cout << "Ведите колличество аргументов";
-  cin >> count;
-  cout << endl;
   double *args;
   args = new double[count];
   for (int i = 0; i < count; i++)

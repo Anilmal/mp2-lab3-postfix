@@ -13,7 +13,6 @@ void TPostfix::ToPostfix()
 		if (isalpha(infix[i]))//a
 		{
 			postfix += infix[i];
-			count_of_args++;
 		}
 		else if (OperationIs(infix[i]))
 		{
@@ -29,33 +28,33 @@ void TPostfix::ToPostfix()
 				operations.Put(infix[i]);//+*
 		}
 		else if (infix[i] == '(')
+		{
+			i++;
+			while (infix[i] != ')')
 			{
-				i++;
-				while (infix[i]!=')')
+				if (isalpha(infix[i]))//bc
 				{
-					if (isalpha(infix[i]))//bc
-					{
-						tmp += infix[i];
-					}
-					else if (operations1.IsEmpty())
-						operations1.Put(infix[i]);//-
-					else if (Priority(infix[i]) <= Priority(operations1.Get()))
-					{
-						tmp += operations1.Get();
-						operations1.Pop();
-						operations1.Put(infix[i]);
-					}
-					else
-						operations1.Put(infix[i]);
-						i++;
+					tmp += infix[i];
 				}
-				while (!operations1.IsEmpty())
+				else if (operations1.IsEmpty())
+					operations1.Put(infix[i]);//-
+				else if (Priority(infix[i]) <= Priority(operations1.Get()))
 				{
-					tmp += operations1.Get();//bc-
+					tmp += operations1.Get();
 					operations1.Pop();
+					operations1.Put(infix[i]);
 				}
-				postfix += tmp;
+				else
+					operations1.Put(infix[i]);
+				i++;
 			}
+			while (!operations1.IsEmpty())
+			{
+				tmp += operations1.Get();//bc-
+				operations1.Pop();
+			}
+			postfix += tmp;
+		}
 	}
 	while (!operations.IsEmpty())
 	{
@@ -83,7 +82,7 @@ double TPostfix::Calculate(int count,double *arguments)// пользовател
 	TStack<double> res(postfix.size());
 	double tmp1;
 	double tmp2;
-	int j = count;
+	int j = count-1;
 	while (j >=0)
 	{
 		res.Put(arguments[j]);
