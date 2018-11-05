@@ -83,11 +83,11 @@ double TPostfix::Calculate(int count,double *arguments)// пользовател
 	TStack<double> res(postfix.size());
 	double tmp1;
 	double tmp2;
-	int j = 0;
-	while (j != count)
+	int j = count;
+	while (j >=0)
 	{
 		res.Put(arguments[j]);
-		j++;
+		j--;
 	}
 	for (int i = 0; i < postfix.size(); i++)
 	{
