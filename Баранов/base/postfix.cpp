@@ -90,30 +90,21 @@ double TPostfix::Calculate(int count,double *arguments)// пользовател
 	}
 	for (int i = 0; i < postfix.size(); i++)
 	{
-			//if (isalpha(postfix[i]))//a b
-			//{
-			//	if (!res.IsEmpty() && res.Get() == arguments[j] && j<count_of_args)
-			//	{
-			//		j++;//[1]
-			//		res.Put(arguments[j]);//2 2
-			//	}
-			//	else
-			//		res.Put(arguments[j]);//2
-			//}
 		if(OperationIs(postfix[i]))
 		{
-			tmp1 = res.Get();
-			res.Pop();
-			tmp2 = res.Get();
-			res.Pop();
-			if (postfix[i] == '+')
-				res.Put(tmp1 + tmp2);
-			if (postfix[i] == '-')
-				res.Put(tmp2 - tmp1);
-			if (postfix[i] == '/')
-				res.Put(tmp2 / tmp1);
-			if (postfix[i] == '*')
-				res.Put(tmp2 * tmp1);
+
+				tmp1 = res.Get();
+				res.Pop();
+				tmp2 = res.Get();
+				res.Pop();
+				if (postfix[i] == '+')
+					res.Put(tmp1 + tmp2);
+				if (postfix[i] == '-')
+					res.Put(tmp2 - tmp1);
+				if (postfix[i] == '/')
+					res.Put(tmp2 / tmp1);
+				if (postfix[i] == '*')
+					res.Put(tmp2 * tmp1);
 		}
 	}
 	return res.Get();

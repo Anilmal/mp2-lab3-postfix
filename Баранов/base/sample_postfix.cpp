@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <string>
+#include <cctype>
 #include "postfix.h"
 
 using namespace std;
@@ -8,13 +9,15 @@ int main()
 {
   string expression;
   double res;
-  int count;
+  int count=0;
   setlocale(LC_ALL, "Russian");
-  cout << "Ведите колличество аргументов ";
-  cin >> count;
-  cout << endl;
   cout << "Введите формулу арифметического выражения: ";
   cin >> expression;
+  for (int j = 0; j < expression.size(); j++)
+  {
+	  if (isalpha(expression[j]))
+		  count++;
+  }
   TPostfix postfix(expression,count);
   cout << "Арифметическое выражение: " << postfix.GetInfix() << endl;
   postfix.ToPostfix();
