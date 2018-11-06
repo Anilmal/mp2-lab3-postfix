@@ -10,15 +10,23 @@ int main()
   string expression;
   double res;
   int count=0;
+  int count_of_args=0;
   setlocale(LC_ALL, "Russian");
   cout << "Введите формулу арифметического выражения: ";
   cin >> expression;
   for (int j = 0; j < expression.size(); j++)
   {
 	  if (isalpha(expression[j]))
-		  count++;
+	  {
+		  count_of_args++;
+		  for (int i = j + 1; i < expression.size(); i++)
+		  {
+			  if (expression[j] == expression[i])
+				  count = count_of_args - 1;
+		  }
+	  }
   }
-  TPostfix postfix(expression,count);
+  TPostfix postfix(expression,count_of_args);
   cout << "Арифметическое выражение: " << postfix.GetInfix() << endl;
   postfix.ToPostfix();
   cout << "Постфиксная форма: " << postfix.GetPostfix() << endl;

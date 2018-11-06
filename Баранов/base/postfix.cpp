@@ -6,11 +6,9 @@ void TPostfix::ToPostfix()
 {
 	TStack<char> operations(infix.length());
 	postfix = "";
-	string tmp = "";
-	TStack<char> operations1(infix.length());
 	for (int i = 0; i < infix.length(); i++)
 	{
-		if (isalpha(infix[i]))//a
+		if (isalpha(infix[i]))//abc*d/e
 		{
 			postfix += infix[i];
 		}
@@ -31,39 +29,17 @@ void TPostfix::ToPostfix()
 			}
 			else
 				operations.Put(infix[i]);//+*
-		}
+		}//*
 		else if (infix[i] == '(')
+			operations.Put(infix[i]);//(
+		else if (infix[i] == ')')
 		{
-			i++;
-			while (infix[i] != ')')
+			while (operations.Get() != '(')//(+-
 			{
-				if (isalpha(infix[i]))//bc
-				{
-					tmp += infix[i];
-				}
-				else if (operations1.IsEmpty())
-					operations1.Put(infix[i]);//-
-				else if (Priority(infix[i]) <= Priority(operations1.Get()))
-				{
-					tmp += operations1.Get();
-					operations1.Pop();
-					if (Priority(infix[i]) == Priority(operations1.Get()))
-					{
-						postfix += operations1.Get();
-						operations1.Pop();
-					}
-					operations1.Put(infix[i]);
-				}
-				else
-					operations1.Put(infix[i]);
-				i++;
+				postfix += operations.Get();//abc*d/e-+ab+*
+					operations.Pop();
 			}
-			while (!operations1.IsEmpty())
-			{
-				tmp += operations1.Get();//bc-
-				operations1.Pop();
-			}
-			postfix += tmp;
+			operations.Pop();
 		}
 	}
 	while (!operations.IsEmpty())
@@ -87,9 +63,9 @@ int TPostfix::Priority(char sym)
 }
 double TPostfix::Calculate(int count,double *arguments)// пользователь передает колличесво аргументов их значения
 {
-	if (count != count_of_args)
+	if (count > count_of_args)
 		throw"ERROR";
-	TStack<double> res(postfix.size());
+	TStack<double> res(count_of_args);
 	double tmp1;
 	double tmp2;
 	int j = 0;
@@ -100,10 +76,12 @@ double TPostfix::Calculate(int count,double *arguments)// пользовател
 	//}
 	for (int i = 0; i < postfix.size(); i++)
 	{
-		if (isalpha(postfix[i])&& j<count)
+		if (isalpha(postfix[i])&& res.IsEmpty())
 		{
 			res.Put(arguments[j]);
 			j++;
+			if (j == count-1)
+				j = 0;
 		}
 		else if(OperationIs(postfix[i]))
 		{
