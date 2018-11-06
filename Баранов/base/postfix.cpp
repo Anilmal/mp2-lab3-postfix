@@ -22,7 +22,12 @@ void TPostfix::ToPostfix()
 			{
 				postfix += operations.Get();//ab+
 				operations.Pop();
-				operations.Put(infix[i]);//-
+				if (Priority(infix[i]) == Priority(operations.Get()))
+				{
+					postfix += operations.Get();
+					operations.Pop();
+				}
+				operations.Put(infix[i]);
 			}
 			else
 				operations.Put(infix[i]);//+*
@@ -42,6 +47,11 @@ void TPostfix::ToPostfix()
 				{
 					tmp += operations1.Get();
 					operations1.Pop();
+					if (Priority(infix[i]) == Priority(operations1.Get()))
+					{
+						postfix += operations1.Get();
+						operations1.Pop();
+					}
 					operations1.Put(infix[i]);
 				}
 				else
@@ -82,15 +92,20 @@ double TPostfix::Calculate(int count,double *arguments)// пользовател
 	TStack<double> res(postfix.size());
 	double tmp1;
 	double tmp2;
-	int j = count-1;
-	while (j >=0)
-	{
-		res.Put(arguments[j]);
-		j--;
-	}
+	int j = 0;
+	//while (j >=0)
+	//{
+	//	res.Put(arguments[j]);
+	//	j--;
+	//}
 	for (int i = 0; i < postfix.size(); i++)
 	{
-		if(OperationIs(postfix[i]))
+		if (isalpha(postfix[i])&& j<count)
+		{
+			res.Put(arguments[j]);
+			j++;
+		}
+		else if(OperationIs(postfix[i]))
 		{
 
 				tmp1 = res.Get();
