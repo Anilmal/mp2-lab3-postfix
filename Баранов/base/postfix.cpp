@@ -1,6 +1,6 @@
 ﻿#include "postfix.h"
 #include "stack.h"
-#include <iostream>
+
 
 void TPostfix::ToPostfix()
 {
@@ -8,17 +8,17 @@ void TPostfix::ToPostfix()
 	postfix = "";
 	for (int i = 0; i < infix.length(); i++)
 	{
-		if (isalpha(infix[i]))//abc*d/e
+		if (isalpha(infix[i]))
 		{
 			postfix += infix[i];
 		}
 		else if (OperationIs(infix[i]))
 		{
 			if (operations.IsEmpty())
-				operations.Put(infix[i]);//+
+				operations.Put(infix[i]);
 			else if (Priority(infix[i]) <= Priority(operations.Get()))
 			{
-				postfix += operations.Get();//ab+
+				postfix += operations.Get();
 				operations.Pop();
 				if (Priority(infix[i]) == Priority(operations.Get()))
 				{
@@ -28,15 +28,15 @@ void TPostfix::ToPostfix()
 				operations.Put(infix[i]);
 			}
 			else
-				operations.Put(infix[i]);//+*
-		}//*
+				operations.Put(infix[i]);
+		}
 		else if (infix[i] == '(')
-			operations.Put(infix[i]);//(
+			operations.Put(infix[i]);
 		else if (infix[i] == ')')
 		{
-			while (operations.Get() != '(')//(+-
+			while (operations.Get() != '(')
 			{
-				postfix += operations.Get();//abc*d/e-+ab+*
+				postfix += operations.Get();
 					operations.Pop();
 			}
 			operations.Pop();
@@ -54,6 +54,18 @@ bool TPostfix::OperationIs(char inf_elem)
 		return true;
 	return false;
 }
+int TPostfix::GetCountOfArgs()
+{ 
+	TStack<char>args(infix.size());
+	for (int i = 0; i < infix.length(); i++)
+	{
+		if (isalpha(infix[i]))
+		{
+			args.Put(infix[i]);
+		}
+	}
+	return count_of_args;
+}
 int TPostfix::Priority(char sym)
 {
 	if (sym == '*' || sym == '/')
@@ -69,14 +81,9 @@ double TPostfix::Calculate(int count,double *arguments)// пользовател
 	double tmp1;
 	double tmp2;
 	int j = 0;
-	//while (j >=0)
-	//{
-	//	res.Put(arguments[j]);
-	//	j--;
-	//}
 	for (int i = 0; i < postfix.size(); i++)
 	{
-		if (isalpha(postfix[i])&& res.IsEmpty())
+		if (isalpha(postfix[i])&& !res.IsFull())
 		{
 			res.Put(arguments[j]);
 			j++;

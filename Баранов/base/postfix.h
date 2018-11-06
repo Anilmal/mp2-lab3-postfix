@@ -27,6 +27,7 @@ public:
   }
   string GetInfix() { return infix; }
   string GetPostfix() { return postfix; }
+  int GetCountOfArgs();
   void ToPostfix();
   double Calculate(int count,double *arguments);
 };

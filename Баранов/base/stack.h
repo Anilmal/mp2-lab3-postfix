@@ -41,11 +41,7 @@ public:
 	  if (top < 0)
 		  throw top;
 	  else
-	  {
-		  T elem;
-		  elem = pMem[top];
-		  return elem;
-	  }
+		  return  pMem[top];
   }
   bool IsEmpty()
   {
