@@ -14,7 +14,6 @@ class TPostfix
   bool OperationIs(char inf_elem);
   int Priority(char sym);
   int count_of_args=0;
-  int count_of_num = 0;
 public:
   TPostfix()
   {
@@ -28,10 +27,10 @@ public:
   }
   string GetInfix() { return infix; }
   string GetPostfix() { return postfix; }
-  string GetArgs();
+  double* GetArgs(double *arguments);
   void ToPostfix();
   void CalculateCountOfArgs();
-  int GetCountOfNum() { return count_of_num; }
+  int GetCountOfArgs() { return count_of_args; }
   double Calculate(int count,double *arguments);
 };
 

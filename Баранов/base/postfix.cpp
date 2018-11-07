@@ -4,7 +4,7 @@
 
 void TPostfix::ToPostfix()
 {
-	TStack<char> operations(infix.length());
+	TStack<char> operations(infix.size());
 	postfix = "";
 	for (int i = 0; i < infix.length(); i++)
 	{
@@ -31,15 +31,42 @@ void TPostfix::ToPostfix()
 				operations.Put(infix[i]);
 		}
 		else if (infix[i] == '(')
-			operations.Put(infix[i]);
-		else if (infix[i] == ')')
 		{
-			while (operations.Get() != '(')
+			TStack<char> operations1(infix.size());
+			while (infix[i] != ')')
 			{
-				postfix += operations.Get();
-					operations.Pop();
+				if (isalpha(infix[i]))
+				{
+					postfix += infix[i];
+				}
+				else if (OperationIs(infix[i]))
+				{
+					if (operations1.IsEmpty())
+						operations1.Put(infix[i]);
+					else if (Priority(infix[i]) <= Priority(operations1.Get()))
+					{
+						postfix += operations1.Get();
+						operations1.Pop();
+						if (Priority(infix[i]) == Priority(operations1.Get()))
+						{
+							postfix += operations1.Get();
+							operations1.Pop();
+						}
+						operations1.Put(infix[i]);
+					}
+					else
+						operations1.Put(infix[i]);
+				}
+				i++;
 			}
-			operations.Pop();
+			if(infix[i]==')')
+			{
+				while (!operations1.IsEmpty())
+				{
+					postfix += operations1.Get();//abc*+
+					operations1.Pop();
+				}
+			}
 		}
 	}
 	while (!operations.IsEmpty())
@@ -54,25 +81,32 @@ bool TPostfix::OperationIs(char inf_elem)
 		return true;
 	return false;
 }
-string TPostfix::GetArgs()
+double* TPostfix::GetArgs(double *arguments)//12
 { 
-	string tmp=infix;
+	string tmp=postfix;//ab+a
 	string args;
+	double param[100];
+	int b=0;
 	for (int i = 0; i < tmp.length(); i++)
 	{
-		if (isalpha(tmp[i]))
+		if (isalpha(tmp[i]))//ab
 		{
-			for (int j = i+1; j < tmp.length(); j++)
-			{
-				if (tmp[i] == tmp[j])
+			if (b == GetCountOfArgs())
+				b = 0;
+				param[i] = arguments[b];//a=1 b=2
+				for (int j = i + 1; j < tmp.length(); j++)
 				{
-					tmp[j] = ' ';
-					args += tmp[i];
+					if (tmp[i] == tmp[j])//j=4
+						param[j] = arguments[b];//1
+					else
+						continue;
 				}
-			}
+				b++;
 		}
+		else
+			param[i] = 0;
 	}
-	return args;
+	return param;
 }
 void TPostfix::CalculateCountOfArgs()
 {
@@ -86,14 +120,10 @@ void TPostfix::CalculateCountOfArgs()
 				if (tmp[i] == tmp[j])
 				{
 					tmp[j] = ' ';
+					count_of_args--;
 				}
 			}
 		}
-	}
-	for (int i = 0; i < tmp.length(); i++)
-	{
-		if (isalpha(tmp[i]))
-			count_of_num++;
 	}
 }
 int TPostfix::Priority(char sym)
@@ -105,23 +135,15 @@ int TPostfix::Priority(char sym)
 }
 double TPostfix::Calculate(int count,double *arguments)// пользователь передает колличесво аргументов их значения
 {
-	if (count > count_of_args)
-		throw"ERROR";
-	TStack<double> res(count_of_args);
+	TStack<double> res(99);
 	double tmp1;
 	double tmp2;
-	int j = 0;
+	double *args = GetArgs(arguments);
 	for (int i = 0; i < postfix.size(); i++)
 	{
-		if (isalpha(postfix[i])&& !res.IsFull())
+		if (isalpha(postfix[i]))
 		{
-			for (j = 0; j < GetArgs().size(); j++)
-			{
-				if (postfix[i]==GetArgs()[j])
-				{
-					res.Put(arguments[j]);
-				}
-			}
+			res.Put(args[i]);
 		}
 		else if(OperationIs(postfix[i]))
 		{

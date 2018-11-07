@@ -8,6 +8,7 @@ using namespace std;
 int main()
 {
   string expression;
+  string tmp;
   double res;
   int count_args=0;
   setlocale(LC_ALL, "Russian");
@@ -24,13 +25,22 @@ int main()
   cout << "Постфиксная форма: " << postfix.GetPostfix() << endl;
   postfix.CalculateCountOfArgs();
   double *args;
-	  args = new double[postfix.GetCountOfNum()];
-	  for (int i = 0; i < postfix.GetCountOfNum(); i++)
+	  args = new double[postfix.GetCountOfArgs()];
+	  for (int i = 0; i < postfix.GetCountOfArgs(); i++)
 	  {
 		  cout << "Введите аргументы" << endl;
 		  cin >> args[i];
 	  }
-  res = postfix.Calculate(postfix.GetCountOfNum(),args);
+	  res = postfix.Calculate(postfix.GetCountOfArgs(),args);
+	 /* try
+	  {
+		  res=postfix.GetCountOfArgs();
+	  }
+  catch (...)
+{
+	  cout << res;
+}*/
   cout << res << endl;
   return 0;
 }
+

@@ -15,7 +15,7 @@ public:
     size = _size;
     top = -1;
     if ((size < 1) || (size > MaxStackSize))
-      throw size;
+      throw "size is not correct";
     pMem = new T[size];
   }
   ~TStack()
@@ -25,38 +25,32 @@ public:
   void Put(const T &elem)
   {
 	  if (!IsFull())
-		  pMem[++top] = elem;
+	  {
+		  top += 1;
+		  pMem[top] = elem;
+	  }
 	  else
-		  throw ("ERROR");
+		  throw ("cant put");
   }
   void Pop()
   {
-	  if (top < 0)
-		  throw top;
+	  if (!IsEmpty())
+		  top-=1;
 	  else
-		  pMem[--top];
+		  throw "cant pop";
   }
   T Get()
   {
-	  if (top < 0)
-		  throw top;
-	  else
-		  return  pMem[top];
+	 return  pMem[top];
   }
   bool IsEmpty()
   {
 	 
-	  if (top == -1)
-		  return true;
-	  else
-		  return false;
+	  return top == -1;
   }
   bool IsFull()
   {
-	  if (top == (size-1))
-		  return true;
-	  else
-		  return false;
+	  return top == (size-1);
   }
 };
 #endif
