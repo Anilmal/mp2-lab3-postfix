@@ -22,14 +22,15 @@ int main()
   cout << "Арифметическое выражение: " << postfix.GetInfix() << endl;
   postfix.ToPostfix();
   cout << "Постфиксная форма: " << postfix.GetPostfix() << endl;
+  postfix.CalculateCountOfArgs();
   double *args;
-	  args = new double[postfix.GetCountOfArgs()];
-	  for (int i = 0; i < postfix.GetCountOfArgs(); i++)
+	  args = new double[postfix.GetCountOfNum()];
+	  for (int i = 0; i < postfix.GetCountOfNum(); i++)
 	  {
 		  cout << "Введите аргументы" << endl;
 		  cin >> args[i];
 	  }
-  res = postfix.Calculate(postfix.GetCountOfArgs(),args);
+  res = postfix.Calculate(postfix.GetCountOfNum(),args);
   cout << res << endl;
   return 0;
 }

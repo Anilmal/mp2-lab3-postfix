@@ -54,17 +54,47 @@ bool TPostfix::OperationIs(char inf_elem)
 		return true;
 	return false;
 }
-int TPostfix::GetCountOfArgs()
+string TPostfix::GetArgs()
 { 
-	TStack<char>args(infix.size());
-	for (int i = 0; i < infix.length(); i++)
+	string tmp=infix;
+	string args;
+	for (int i = 0; i < tmp.length(); i++)
 	{
-		if (isalpha(infix[i]))
+		if (isalpha(tmp[i]))
 		{
-			args.Put(infix[i]);
+			for (int j = i+1; j < tmp.length(); j++)
+			{
+				if (tmp[i] == tmp[j])
+				{
+					tmp[j] = ' ';
+					args += tmp[i];
+				}
+			}
 		}
 	}
-	return count_of_args;
+	return args;
+}
+void TPostfix::CalculateCountOfArgs()
+{
+	string tmp = infix;
+	for (int i = 0; i < tmp.length(); i++)
+	{
+		if (isalpha(tmp[i]))
+		{
+			for (int j = i + 1; j < tmp.length(); j++)
+			{
+				if (tmp[i] == tmp[j])
+				{
+					tmp[j] = ' ';
+				}
+			}
+		}
+	}
+	for (int i = 0; i < tmp.length(); i++)
+	{
+		if (isalpha(tmp[i]))
+			count_of_num++;
+	}
 }
 int TPostfix::Priority(char sym)
 {
@@ -85,10 +115,13 @@ double TPostfix::Calculate(int count,double *arguments)// пользовател
 	{
 		if (isalpha(postfix[i])&& !res.IsFull())
 		{
-			res.Put(arguments[j]);
-			j++;
-			if (j == count-1)
-				j = 0;
+			for (j = 0; j < GetArgs().size(); j++)
+			{
+				if (postfix[i]==GetArgs()[j])
+				{
+					res.Put(arguments[j]);
+				}
+			}
 		}
 		else if(OperationIs(postfix[i]))
 		{
