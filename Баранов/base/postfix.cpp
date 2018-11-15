@@ -1,7 +1,5 @@
 ﻿#include "postfix.h"
 #include "stack.h"
-
-
 void TPostfix::ToPostfix()
 {
 	TStack<char> operations(infix.size());

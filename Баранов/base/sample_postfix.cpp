@@ -40,7 +40,7 @@ int main()
 {
 	  cout << res;
 }*/
-  cout << res << endl;
+  cout <<"Результат выражения "<< res << endl;
   return 0;
 }
 

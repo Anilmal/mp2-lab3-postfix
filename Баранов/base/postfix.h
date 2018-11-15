@@ -1,12 +1,9 @@
 ﻿#ifndef __POSTFIX_H__
 #define __POSTFIX_H__
-
 #include <string>
 #include <cctype>
 #include "stack.h"
-
 using namespace std;
-
 class TPostfix
 {
   string infix;
@@ -33,5 +30,4 @@ public:
   int GetCountOfArgs() { return count_of_args; }
   double Calculate(int count,double *arguments);
 };
-
 #endif
